@@ -6,7 +6,7 @@ services:
     volumes:
       - ..:/workspaces/admidio:cached
     command: >-
-      bash -lc 'php -S 0.0.0.0:8081 -t /workspaces/admidio >/tmp/admidio-php-server.log 2>&1 & exec sleep infinity'
+      bash -lc 'php -S 0.0.0.0:8081 -t /workspaces/admidio /workspaces/admidio/.devcontainer/router.php >/tmp/admidio-php-server.log 2>&1 & exec sleep infinity'
     environment:
       TEST_DATABASE_ENGINE: mariadb
       TEST_DB_MARIADB_HOST: mariadb
