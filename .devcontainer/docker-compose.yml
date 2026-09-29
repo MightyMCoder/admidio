@@ -7,6 +7,8 @@ services:
       - ..:/workspaces/admidio:cached
     command: >-
       bash -lc 'php -S 0.0.0.0:8080 -t /workspaces/admidio >/tmp/admidio-php-server.log 2>&1 & exec sleep infinity'
+    ports:
+      - "8080:8080"
     environment:
       TEST_DATABASE_ENGINE: mariadb
       TEST_DB_MARIADB_HOST: mariadb
