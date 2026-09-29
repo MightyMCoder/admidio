@@ -6,16 +6,13 @@
   "shutdownAction": "stopCompose",
   "postCreateCommand": "bash .devcontainer/setup.sh",
   "postStartCommand": "bash .devcontainer/start-web.sh",
-  "forwardPorts": [
-    8080,
-    "mailpit:8025"
-  ],
+  "forwardPorts": [8080, 8025],
   "portsAttributes": {
     "8080": {
       "label": "Admidio",
       "onAutoForward": "openBrowser"
     },
-    "mailpit:8025": {
+    "8025": {
       "label": "Mailpit",
       "onAutoForward": "notify"
     }
