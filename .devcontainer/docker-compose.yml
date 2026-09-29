@@ -5,7 +5,8 @@ services:
       dockerfile: .devcontainer/Dockerfile
     volumes:
       - ..:/workspaces/admidio:cached
-    command: sleep infinity
+    command: >-
+      bash -lc 'php -S 0.0.0.0:8080 -t /workspaces/admidio >/tmp/admidio-php-server.log 2>&1 & exec sleep infinity'
     environment:
       TEST_DATABASE_ENGINE: mariadb
       TEST_DB_MARIADB_HOST: mariadb
@@ -64,6 +65,8 @@ services:
 
   mailpit:
     image: axllent/mailpit:latest
+    ports:
+      - "8025:8025"
     healthcheck:
       test: ["CMD", "/mailpit", "readyz"]
       interval: 10s
