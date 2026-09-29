@@ -1,0 +1,35 @@
+{
+  "name": "Admidio Development",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/admidio",
+  "shutdownAction": "stopCompose",
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "postStartCommand": "bash .devcontainer/start-web.sh",
+  "forwardPorts": [
+    8080,
+    "mailpit:8025"
+  ],
+  "portsAttributes": {
+    "8080": {
+      "label": "Admidio",
+      "onAutoForward": "openBrowser"
+    },
+    "mailpit:8025": {
+      "label": "Mailpit",
+      "onAutoForward": "notify"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "xdebug.php-debug",
+        "eamodio.gitlens"
+      ],
+      "settings": {
+        "php.validate.executablePath": "/usr/bin/php"
+      }
+    }
+  }
+}
