@@ -1,0 +1,76 @@
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/workspaces/admidio:cached
+    command: sleep infinity
+    environment:
+      TEST_DATABASE_ENGINE: mariadb
+      TEST_DB_MARIADB_HOST: mariadb
+      TEST_DB_MARIADB_PORT: 3306
+      TEST_DB_MARIADB_USER: admidio
+      TEST_DB_MARIADB_PASS: admidio_test
+      TEST_DB_MARIADB_NAME: admidio_test
+      TEST_DB_POSTGRES_HOST: postgres
+      TEST_DB_POSTGRES_PORT: 5432
+      TEST_DB_POSTGRES_USER: admidio
+      TEST_DB_POSTGRES_PASS: admidio_test
+      TEST_DB_POSTGRES_NAME: admidio_test
+      TEST_MAIL_HOST: mailpit
+      TEST_MAIL_PORT: 1025
+      TEST_MAILPIT_API_HOST: mailpit
+      TEST_MAILPIT_API_PORT: 8025
+      TEST_FILES_PATH: ./tests/adm_my_files
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      mailpit:
+        condition: service_healthy
+
+  mariadb:
+    image: mariadb:10.11
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: admidio_test
+      MARIADB_USER: admidio
+      MARIADB_PASSWORD: admidio_test
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: admidio_test
+      POSTGRES_USER: admidio
+      POSTGRES_PASSWORD: admidio_test
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admidio -d admidio_test"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  mailpit:
+    image: axllent/mailpit:latest
+    healthcheck:
+      test: ["CMD", "/mailpit", "readyz"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  mariadb_data:
+  postgres_data:
