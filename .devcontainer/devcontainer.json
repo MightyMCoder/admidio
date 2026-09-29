@@ -5,9 +5,9 @@
   "workspaceFolder": "/workspaces/admidio",
   "shutdownAction": "stopCompose",
   "postCreateCommand": "bash .devcontainer/setup.sh",
-  "forwardPorts": [8080, 18025],
+  "forwardPorts": [8081, 18025],
   "portsAttributes": {
-    "8080": {
+    "8081": {
       "label": "Admidio",
       "onAutoForward": "openBrowser"
     },
